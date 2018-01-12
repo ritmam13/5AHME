@@ -31,15 +31,20 @@ public class WriteSingleCoilTelegram extends AbstractTelegram
   
   public static void main(String[] args)
   {
-    try (SimpleSerial serial = new SimpleSerial("COM10"))
+    try (SimpleSerial serial = new SimpleSerial("COM6"))
     {
       serial.open();
       serial.setParams(57600, 8, 2, SerialPort.PARITY_NONE);
-      final WriteSingleCoilTelegram tel = 
-              new WriteSingleCoilTelegram(serial, (byte)2, 2, true);
-      tel.send();
-      final byte[] answer = tel.recieve();
-      System.out.println("Answer:" + Arrays.toString(answer));
+//      for(int i=0; i<1000;i++)
+//      {
+        final WriteSingleCoilTelegram tel = 
+              new WriteSingleCoilTelegram(serial, (byte)2, 2, true); //i % 2 == 1
+        tel.send();
+        final byte[] answer = tel.recieve();
+        System.out.println("Answer:" + Arrays.toString(answer));
+        Thread.sleep(250);
+//      }
+      
     }
     catch (Exception ex)
     {

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package _5AHME.ue01.serial;
+package _5AHME._5AHME.ue01.serial;
 
 import java.util.*;
 import jssc.*;

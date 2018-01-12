@@ -6,6 +6,7 @@
 package _5AHME._5AHME.ue01.modbus;
 
 import _5AHME._5AHME.ue01.serial.*;
+import java.util.*;
 
 /**
  *
@@ -17,6 +18,7 @@ public abstract class AbstractTelegram implements Telegram
   private final byte busAddress, functionCode;
   private final byte[] xmtData;
   private final int lenghtOfAnswer;
+  private byte[] recieved;
 
   public AbstractTelegram(SimpleSerial serial, byte busAddress, byte functionCode, byte[] xmtData, int lenghtOfAnswer)
   {
@@ -39,6 +41,7 @@ public abstract class AbstractTelegram implements Telegram
     final int crc = calcCrc(toSend,0, bytesToSend-2);
     toSend[bytesToSend-2] = (byte)(crc & 0xFF);
     toSend[bytesToSend-1] = (byte) ((crc>>8) & 0xFF);
+    System.out.println("Gesendet:" + Arrays.toString(toSend));
     serial.writeBytes(toSend);
   }
 
@@ -46,13 +49,18 @@ public abstract class AbstractTelegram implements Telegram
   public byte[] recieve() throws Exception
   {
     final int bytestoRecieve = lenghtOfAnswer +4;
-    final byte[] recieved = serial.readBytes(bytestoRecieve,5000);                  //  TODO
+    recieved = serial.readBytes(bytestoRecieve,5000);                  //  TODO
     // Plausikontrolle 
     if (recieved[0] != busAddress)
       throw new Exception("Illegal device address returned");
     if (recieved[1] != functionCode)
       throw new Exception("Illegal Function Code");
     // TODO: CRC überprüfen 
+    return recieved;
+  }
+
+  protected byte[] getRecieved()
+  {
     return recieved;
   }
   

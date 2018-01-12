@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package _5AHME.ue01.modbus;
+package _5AHME._5AHME.ue01.modbus;
 
 /**
  *
